@@ -77,3 +77,5 @@ Tournament org Home Screen
 •	Next round and or start tourney button 
 •	Outstanding matches? 
 
+Here is the base graph i cooked up for what my idea is
+![alt text](https://github.com/bernhawm/spring_boot_tournament_app/blob/main/Tournament_app_graph.drawio.png?raw=true)

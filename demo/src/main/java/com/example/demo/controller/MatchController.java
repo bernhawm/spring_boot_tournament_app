@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.MatchResultRequest;
 import com.example.demo.entity.Match;
 import com.example.demo.entity.Rounds;
 import com.example.demo.entity.Tournament;
@@ -82,9 +83,13 @@ public class MatchController {
     @PostMapping("/{matchId}/result")
     public ResponseEntity<Match> recordMatchResult(
             @PathVariable Long matchId,
-            @RequestParam String result,
-            @RequestParam Long winnerId) {
-        Match match = matchService.recordMatchResult(matchId, result, winnerId);
+            @RequestBody MatchResultRequest resultRequest) {
+        Match match = matchService.recordMatchResult(
+                matchId, 
+                resultRequest.getResult(), 
+                resultRequest.getWinnerId()
+        );
         return ResponseEntity.ok(match);
     }
+
 }

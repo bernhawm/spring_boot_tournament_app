@@ -19,3 +19,17 @@ VALUES
 (1, 3, true), 
 (1, 4, true);
 
+-- Insert a round
+INSERT INTO rounds (tournament_id, start_time) 
+VALUES (1, '2024-12-10T12:00:00');
+
+-- -- Insert two matches linked to the round above
+-- INSERT INTO matches (round_id, tournament_id, player1Id, player2Id, result, winnerId)
+-- VALUES 
+-- (1, 1, 1, 2, 'Pending', NULL),
+-- (1, 1, 3, 4, 'Pending', NULL);
+-- Insert matches linked to the round and tournament
+INSERT INTO matches (round_id, tournament_id, PLAYER1ID , PLAYER2ID, result, winner_id)
+VALUES 
+(1, 1, 1, 2, 'Pending', NULL),
+(1, 1, 3, 4, 'Pending', NULL);

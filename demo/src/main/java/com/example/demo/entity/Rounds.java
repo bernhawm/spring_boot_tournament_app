@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import com.example.demo.entity.Match;
 
 
 @Entity
@@ -24,7 +23,7 @@ public class Rounds {
     private Tournament tournament;
 
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime StartTime; // Starttime date
 
 

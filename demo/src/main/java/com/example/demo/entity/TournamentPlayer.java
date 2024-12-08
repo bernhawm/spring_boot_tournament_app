@@ -31,4 +31,6 @@ public class TournamentPlayer {
     @Column(name = "is_in_tournament", nullable = false)
     private Boolean isInTournament = true; // Default value is true
 
+    @Column(name = "points", nullable = false)
+    private Integer points = 0; // Default value is 0
 }

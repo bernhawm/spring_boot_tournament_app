@@ -24,11 +24,15 @@ public class RoundService {
     public Rounds createRound(Long tournamentId, LocalDateTime startTime) {
         Tournament tournament = tournamentRepository.findById(tournamentId)
             .orElseThrow(() -> new RuntimeException("Tournament not found."));
-    
+
+        // Calculate the round number based on the existing rounds for the tournament
+        long roundNumber = roundRepository.countByTournamentId(tournamentId) + 1;  // Use long here
+
         Rounds round = new Rounds();
         round.setTournament(tournament); // This should work now.
+        round.setRoundNumber((int) roundNumber); // If you need to store it as an int, cast here
         round.setStartTime(startTime);
-    
+
         return roundRepository.save(round);
     }
 }

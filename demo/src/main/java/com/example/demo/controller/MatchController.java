@@ -10,6 +10,7 @@ import com.example.demo.repository.TournamentRepository;
 import com.example.demo.service.MatchService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -44,21 +45,21 @@ public class MatchController {
     }
 
     // POST request with JSON body (if you prefer this method)
-    @PostMapping("/create")
-    public ResponseEntity<Match> createMatch(@RequestBody Match match) {
-        // Fetch the tournament from the database
-        Tournament tournament = tournamentRepository.findById(match.getTournament().getId())
-                .orElseThrow(() -> new RuntimeException("Tournament not found"));
+    // @PostMapping("/create")
+    // public ResponseEntity<Match> createMatch(@RequestBody Match match) {
+    //     // Fetch the tournament from the database
+    //     Tournament tournament = tournamentRepository.findById(match.getTournament().getId())
+    //             .orElseThrow(() -> new RuntimeException("Tournament not found"));
 
-        // Fetch the round from the database using match.getRound().getId()
-        Rounds round = roundRepository.findById(match.getRound().getId())
-                .orElseThrow(() -> new RuntimeException("Round not found"));
+    //     // Fetch the round from the database using match.getRound().getId()
+    //     Rounds round = roundRepository.findById(match.getRound().getId())
+    //             .orElseThrow(() -> new RuntimeException("Round not found"));
 
-        // Call the MatchService to create the match
-        Match createdMatch = matchService.createMatch(round.getId(), match.getPlayer1Id(), match.getPlayer2Id(), tournament.getId());
+    //     // Call the MatchService to create the match
+    //     Match createdMatch = matchService.createMatch(round.getId(), match.getPlayer1Id(), match.getPlayer2Id(), tournament.getId());
 
-        return ResponseEntity.ok(createdMatch);
-    }
+    //     return ResponseEntity.ok(createdMatch);
+    // }
 
     // POST request with request params (if you prefer this method)
     
@@ -92,4 +93,16 @@ public class MatchController {
         return ResponseEntity.ok(match);
     }
 
+    // Endpoint to create matches for a specific round of a tournament
+    @PostMapping("/{tournamentId}/rounds/{roundId}/create-matches")
+    public ResponseEntity<String> createMatchesForRound(@PathVariable Long tournamentId, @PathVariable Long roundId) {
+        try {
+            // Calling the service to create matches for the new round
+            matchService.createMatchesForNewRound(tournamentId, roundId);
+            return ResponseEntity.ok("Matches created for round " + roundId);
+        } catch (RuntimeException e) {
+            // If something goes wrong (like round or tournament not found), return an error
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
 }

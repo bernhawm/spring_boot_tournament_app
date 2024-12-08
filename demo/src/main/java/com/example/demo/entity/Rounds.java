@@ -22,6 +22,8 @@ public class Rounds {
     @JoinColumn(name = "tournament_id", nullable = false)
     private Tournament tournament;
 
+    @Column(nullable = false)
+    private Integer roundNumber; // Add round number
 
     @Column(nullable = true)
     private LocalDateTime StartTime; // Starttime date

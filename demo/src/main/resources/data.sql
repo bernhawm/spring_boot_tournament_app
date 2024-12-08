@@ -12,16 +12,17 @@ VALUES (5, '2024-12-10T10:00:00', 'Swiss', '{"standings":[]}');
 
 
 -- Link players to tournaments
-INSERT INTO TOURNAMENT_PLAYERS (tournament_id, player_id, is_in_tournament)
+INSERT INTO TOURNAMENT_PLAYERS (tournament_id, player_id, is_in_tournament,points)
 VALUES 
-(1, 1, true), 
-(1, 2, true), 
-(1, 3, true), 
-(1, 4, true);
+(1, 1, true,0), 
+(1, 2, true,0), 
+(1, 3, true,0), 
+(1, 4, true,0);
 
 -- Insert a round
-INSERT INTO rounds (tournament_id, start_time) 
-VALUES (1, '2024-12-10T12:00:00');
+INSERT INTO rounds (tournament_id, round_number, start_time)
+VALUES 
+(1, 1, '2024-12-01T10:00:00'); -- Round 1
 
 -- -- Insert two matches linked to the round above
 -- INSERT INTO matches (round_id, tournament_id, player1Id, player2Id, result, winnerId)

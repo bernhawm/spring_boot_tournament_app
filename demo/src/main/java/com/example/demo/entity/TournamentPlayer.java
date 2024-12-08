@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +25,10 @@ public class TournamentPlayer {
     @ManyToOne
     @JoinColumn(name = "tournament_id", nullable = false)
     private Tournament tournament;
-    
+
     private Long playerId;
+
+    @Column(name = "is_in_tournament", nullable = false)
+    private Boolean isInTournament = true; // Default value is true
+
 }

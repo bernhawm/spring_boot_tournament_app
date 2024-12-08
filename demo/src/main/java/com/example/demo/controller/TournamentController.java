@@ -41,5 +41,17 @@ public class TournamentController {
                 playerAddRequest.getTournamentId(), playerAddRequest.getPlayerId());
         return ResponseEntity.ok(tournament);
     }
+    // Endpoint to remove a player from a tournament
+    @PatchMapping("/{tournamentId}/removePlayer/{playerId}")
+    public ResponseEntity<String> removePlayerFromTournament(
+            @PathVariable Long tournamentId,
+            @PathVariable Long playerId) {
 
+        try {
+            tournamentService.removePlayerFromTournament(tournamentId, playerId);
+            return ResponseEntity.ok("Player removed from the tournament.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+}
 }

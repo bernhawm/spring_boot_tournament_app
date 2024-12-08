@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Rounds;
 import com.example.demo.entity.Tournament;
 import com.example.demo.entity.TournamentPlayer;
 import com.example.demo.repository.TournamentPlayerRepository;
 import com.example.demo.repository.TournamentRepository;
+import com.example.demo.repository.RoundRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,10 +18,16 @@ public class TournamentService {
 
     private final TournamentRepository tournamentRepository;
     private final TournamentPlayerRepository tournamentPlayerRepository;
+    private final RoundRepository roundRepository; // Add this field
 
-    public TournamentService(TournamentRepository tournamentRepository, TournamentPlayerRepository tournamentPlayerRepository) {
+    public TournamentService(
+        TournamentRepository tournamentRepository,
+        TournamentPlayerRepository tournamentPlayerRepository,
+        RoundRepository roundRepository // Include it in the constructor
+    ) {
         this.tournamentRepository = tournamentRepository;
         this.tournamentPlayerRepository = tournamentPlayerRepository;
+        this.roundRepository = roundRepository;
     }
 
     // Create a new tournament
@@ -59,4 +68,28 @@ public class TournamentService {
 
         return optionalTournament.get();
     }
+    public void removePlayerFromTournament(Long tournamentId, Long playerId) {
+        // Check if the player exists in the tournament
+        TournamentPlayer tournamentPlayer = tournamentPlayerRepository
+            .findByTournamentIdAndPlayerId(tournamentId, playerId)
+            .orElseThrow(() -> new RuntimeException("Player not found in the tournament."));
+    
+        // Mark the player as no longer in the tournament
+        tournamentPlayer.setIsInTournament(false);
+        tournamentPlayerRepository.save(tournamentPlayer);
+    }
+    
+    public Rounds createRound(Long tournamentId, LocalDateTime startTime) {
+        Tournament tournament = tournamentRepository.findById(tournamentId)
+            .orElseThrow(() -> new RuntimeException("Tournament not found."));
+    
+        Rounds round = new Rounds();
+        round.setTournament(tournament);
+        round.setStartTime(startTime);
+    
+        return roundRepository.save(round);
+    }
+
+
+
 }
